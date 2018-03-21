@@ -355,11 +355,17 @@ class RequestParser(object):
         errors = {}
         for arg in self.args:
             value, found = arg.parse(req, self.bundle_errors)
+            print("THIS IS WHAT WAS FOUND")
+            print(value, found)
+
             if isinstance(value, ValueError):
                 errors.update(found)
                 found = None
             if found or arg.store_missing:
                 result[arg.dest or arg.name] = value
+        print("THESE ARE THE PARSE_ARGS ERRORS")
+        print(errors)
+
         if errors:
             abort(HTTPStatus.BAD_REQUEST, 'Input payload validation failed', errors=errors)
 
